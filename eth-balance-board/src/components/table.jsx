@@ -25,7 +25,10 @@ const AdressCell = ({ value }) => {
     return (
         <div  className='flex gap-4 items-center group'>
             <Blockie address={value} className='px-10'/>
-            <span>{ shortenAddress(value) }</span>
+            <span onClick={() => window.open(`https://etherscan.io/address/${value}`, '_blank')}
+                className='cursor-pointer hover:italic'>
+                { shortenAddress(value) }
+                </span>
             <button 
             onClick={handleCopy} 
             className={`cursor-pointer text-white opacity-0 group-hover:opacity-100 transition-opacity ease-in-out duration-700`}>
