@@ -51,4 +51,56 @@ export const accounts = [
         address: "0x8d0bb74e37ab644964aca2f3fbe12b9147f9d841",
         name: "",
     },
+    {
+        address: "0xA6dfb62fc572Da152A335384f7724535b9DEfC84",
+        name: "",
+    },
+    {
+        address: "0xcA8Fa8f0b631EcdB18Cda619C4Fc9d197c8aFfCa",
+        name: "",
+    },
+    {
+        address: "0xC61b9BB3A7a0767E3179713f3A5c7a9aeDCE193C",
+        name: "Bitfinex: MultiSig 3",
+    },
+    {
+        address: "0x3BfC20f0B9aFcAcE800D73D2191166FF16540258",
+        name: "Polkadot: MultiSig",
+    },
+    {
+        address: "0xD3a22590f8243f8E83Ac230D1842C9Af0404C4A1",
+        name: "Ceffu: Custody Hot Wallet 2",
+    },
+    {
+        address: "0x8103683202aa8DA10536036EDef04CDd865C225E",
+        name: "Bitfinex 20",
+    },
+    {
+        address: "0x5a52E96BAcdaBb82fd05763E25335261B270Efcb",
+        name: "Binance 28",
+    },
+    {
+        address: "0x0a4c79cE84202b03e95B7a692E5D728d83C44c76",
+        name: "",
+    },
+    {
+        address: "0x539C92186f7C6CC4CbF443F26eF84C595baBBcA1",
+        name: "OKX 73",
+    },
+    {
+        address: "0x2B6eD29A95753C3Ad948348e3e7b1A251080Ffb9",
+        name: "Rain Lohmus",
+    },
+    {
+        address: "0xbFbBFacCD1126A11b8F84C60b09859F80f3BD10F",
+        name: "OKX 93",
+    },
+    {
+        address: "0x868daB0b8E21EC0a48b726A1ccf25826c78C6d7F",
+        name: "OKX 76",
+    },
+    {
+        address: "0x1b3cB81E51011b549d78bf720b0d924ac763A7C2",
+        name: "",
+    },
 ]

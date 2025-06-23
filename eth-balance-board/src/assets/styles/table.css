@@ -1,5 +1,14 @@
-.table-row-group:has(.table-row:hover) .table-row:not(:hover) {
-    color: rgb(107 114 128); 
+/* Remove all borders and add them selectively */
+.table-cell {
+    border: none;
+    border-left: 1px dashed white;
+    border-right: 1px dashed white;
+    border-bottom: 1px dashed white;
+    transition: border-color 300ms ease-in-out;
+}
+
+.table-header-group .table-cell {
+    border-top: 1px dashed white;
 }
 
 .table-row {
@@ -7,6 +16,23 @@
     transition: color 300ms ease-in-out;
 }
 
+.table-row-group:has(.table-row:hover) .table-row:not(:hover) {
+    color: rgb(107 114 128); 
+}
+
+.table-row-group:has(.table-row:hover) .table-row:not(:hover) .table-cell {
+    border-color: rgb(107 114 128);
+}
+
+.table-row:hover .table-cell {
+    border-color: white !important;
+}
+
+.table-row:has(+ .table-row:hover) .table-cell {
+    border-bottom-color: white !important;
+}
+
+/* Canvas opacity effects */
 .table-row-group:has(.table-row:hover) .table-row:not(:hover) canvas {
     opacity: 0.5;
 }

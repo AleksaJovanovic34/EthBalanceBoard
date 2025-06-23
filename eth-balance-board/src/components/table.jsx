@@ -1,8 +1,8 @@
 import '../assets/styles/table.css'
-import { useReactTable, getCoreRowModel, flexRender } from '@tanstack/react-table'
-import React from 'react';
+import { useReactTable, getCoreRowModel, flexRender, getPaginationRowModel } from '@tanstack/react-table'
+import React, { useState } from 'react';
 import Blockie from './ui/blockies';
-import { Copy, Check } from 'lucide-react'
+import { Copy, Check, ChevronsLeft, ChevronsRight, ChevronLeft, ChevronRight } from 'lucide-react'
 
 const shortenAddress = (address) => {
     if (!address) return '';
@@ -44,6 +44,7 @@ const Table = ({ data }) => {
         {
             accessorKey: 'address',
             header: 'Address',
+            size: 280,
             cell: ({ cell}) => (
                 <AdressCell value={cell.getValue()}/>
             ),
@@ -51,11 +52,13 @@ const Table = ({ data }) => {
         {
             accessorKey: 'name',
             header: 'Name Tag',
+            size: 280, 
             cell: (props) => <p>{props.getValue()}</p>
         },
         {
             accessorKey: 'eth',
             header: 'ETH',
+            size: 200,
             cell: (props) => {
                 const value = props.getValue()
                 return (
@@ -67,10 +70,11 @@ const Table = ({ data }) => {
         {
             accessorKey: 'usdBalance',
             header: 'USD',
+            size: 200,
             cell: (props) => {
                 const value = props.getValue()
                 return (
-                    <span>
+                    <span className='w-max'>
                         {typeof value === 'number' ? value.toLocaleString('en-US', {style: 'currency', currency:'USD'}) : '-'}
                     </span>
                 )
@@ -79,20 +83,37 @@ const Table = ({ data }) => {
         },
     ]
 
+    const [pagination, setPagination] = useState({
+        pageIndex: 0,
+        pageSize: 13,
+    })
+
     const table = useReactTable({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
+        onPaginationChange: setPagination,
+        //no need to pass pageCount or rowCount with client-side pagination as it is calculated automatically
+        state: {
+            pagination,
+        },
     });
     
     return (
-        <table className='table'>
-            <thead className='table-header-group w-full text-white border-b border-b-gray-600'>
+        <div>
+            <table className='table'>
+            <thead className='table-header-group w-full text-white'>
                 {table.getHeaderGroups().map(headerGroup => 
                     <tr key={headerGroup.id} className='table-row'>
                         {headerGroup.headers.map(header => 
                             <td key={header.id} 
-                            className='table-cell px-10 py-2'>
+                            className='table-cell text-left py-2 px-2'
+                            style={{ 
+                                width: header.getSize() + 'px',
+                                minWidth: header.getSize() + 'px',
+                                maxWidth: header.getSize() + 'px'
+                            }}>
                                 {header.column.columnDef.header}
                             </td>
                         )}
@@ -102,10 +123,15 @@ const Table = ({ data }) => {
                 {table.getRowModel().rows.map(row => {
                     return(
                         <tr key={row.id} 
-                        className='table-row border-b border-b-gray-500'>
+                        className='table-row'>
                             {row.getVisibleCells().map((cell) => (
                                 <td key={cell.id} 
-                                className={`table-cell py-2 px-10`}>
+                                className={`table-cell py-2 px-2`}
+                                style={{ 
+                                    width: cell.column.getSize() + 'px',
+                                    minWidth: cell.column.getSize() + 'px',
+                                    maxWidth: cell.column.getSize() + 'px'
+                                }}>
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                 </td>
                             ))}
@@ -114,6 +140,34 @@ const Table = ({ data }) => {
                     })}
             </tbody>
         </table>
+            <div className='flex justify-center gap-4 text-white mt-2 text-2xl'>
+                    <button 
+                    className='text-white disabled:text-gray-600' 
+                    onClick={() => table.firstPage()}
+                    disabled={!table.getCanPreviousPage()}>
+                        <ChevronsLeft/>
+                    </button>
+                    <button 
+                    className='disabled:text-gray-600' 
+                    onClick={() => table.previousPage()}
+                    disabled={!table.getCanPreviousPage()}>
+                        <ChevronLeft/>
+                    </button>
+                    <button 
+                    className='disabled:text-gray-600' 
+                    onClick={() => table.nextPage()}
+                    disabled={!table.getCanNextPage()}>
+                        <ChevronRight/>
+                    </button>
+                    <button 
+                    className='disabled:text-gray-600' 
+                    onClick={() => table.lastPage()}
+                    disabled={!table.getCanNextPage()}>
+                        <ChevronsRight/>
+                    </button>
+            </div>
+            <div className='text-white text-lg text-center mt-4'>{pagination.pageIndex + 1}</div>
+        </div>
     )
 }
 
