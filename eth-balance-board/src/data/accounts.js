@@ -103,4 +103,21 @@ export const accounts = [
         address: "0x1b3cB81E51011b549d78bf720b0d924ac763A7C2",
         name: "",
     },
+    {
+        address: "0x220866B1A2219f40e72f5c628B65D54268cA3A9D",
+        name: "Vb 3",
+    },
+    {
+        address: "0xbEb5Fc579115071764c7423A4f12eDde41f106Ed",
+        name: "	Optimism: Portal",
+    },
+    {
+        address: "0xAFCD96e580138CFa2332C632E66308eACD45C5dA",
+        name: "",
+    },
+    {
+        address: "0x6C6d0af3B2059247530972834B9348f6D7C7cE13",
+        name: "",
+    },
+
 ]

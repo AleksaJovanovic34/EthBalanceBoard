@@ -1,8 +1,8 @@
 import '../assets/styles/table.css'
-import { useReactTable, getCoreRowModel, flexRender, getPaginationRowModel } from '@tanstack/react-table'
+import { useReactTable, getCoreRowModel, flexRender, getPaginationRowModel, getSortedRowModel } from '@tanstack/react-table'
 import React, { useState } from 'react';
 import Blockie from './ui/blockies';
-import { Copy, Check, ChevronsLeft, ChevronsRight, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Copy, Check, ChevronsLeft, ChevronsRight, ChevronLeft, ChevronRight, ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-react'
 
 const shortenAddress = (address) => {
     if (!address) return '';
@@ -57,8 +57,20 @@ const Table = ({ data }) => {
         },
         {
             accessorKey: 'eth',
-            header: 'ETH',
+            header: ({column}) => {
+                return (
+                    <span 
+                    className="flex items-center justify-between cursor-pointer" 
+                    onClick={() => column.toggleSorting()}>
+                        ETH 
+                        {column.getIsSorted() === 'asc' && <ArrowUp size={16} />}
+                        {column.getIsSorted() === 'desc' && <ArrowDown size={16} />}
+                        {!column.getIsSorted() && <ArrowUpDown size={16} className="text-gray-600" />}
+                    </span>
+                )
+            },
             size: 200,
+            enableSorting: true,
             cell: (props) => {
                 const value = props.getValue()
                 return (
@@ -87,6 +99,7 @@ const Table = ({ data }) => {
         pageIndex: 0,
         pageSize: 13,
     })
+    const [sorting, setSorting] = useState([]);
 
     const table = useReactTable({
         data,
@@ -94,9 +107,11 @@ const Table = ({ data }) => {
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
         onPaginationChange: setPagination,
-        //no need to pass pageCount or rowCount with client-side pagination as it is calculated automatically
+        getSortedRowModel: getSortedRowModel(),
+        onSortingChange: setSorting,
         state: {
             pagination,
+            sorting
         },
     });
     
@@ -114,7 +129,7 @@ const Table = ({ data }) => {
                                 minWidth: header.getSize() + 'px',
                                 maxWidth: header.getSize() + 'px'
                             }}>
-                                {header.column.columnDef.header}
+                                {flexRender(header.column.columnDef.header, header.getContext())}
                             </td>
                         )}
                     </tr>)}
